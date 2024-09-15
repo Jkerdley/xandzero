@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Information } from './Information';
 import { Field } from './Field';
 import styles from './FieldLayout.module.css';
@@ -24,3 +25,15 @@ export function GameLayout(props) {
 		</div>
 	);
 }
+
+GameLayout.propTypes = {
+	currentPlayer: PropTypes.string,
+	isGameEnded: PropTypes.bool,
+	isDraw: PropTypes.bool,
+	field: PropTypes.arrayOf(PropTypes.string),
+	setField: PropTypes.func,
+	setCurrentPlayer: PropTypes.func,
+	setIsGameEnded: PropTypes.func,
+	setIsDraw: PropTypes.func,
+	restartGame: PropTypes.func,
+};
