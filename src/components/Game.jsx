@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GameLayout } from './GameLayout';
 
 export function Game() {
-	let array = ['', '', '', '', '', '', '', '', ''];
+	let array = Array(9).fill('');
 	const [field, setField] = useState(array);
 	const [currentPlayer, setCurrentPlayer] = useState('X');
 	const [isGameEnded, setIsGameEnded] = useState(false);

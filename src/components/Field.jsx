@@ -1,5 +1,7 @@
 import React from 'react';
 import { FieldLayout } from './FieldLayout';
+import { checkWinner } from './Utils/CheckWinner';
+
 
 export function Field(props) {
 	const { field, currentPlayer, isGameEnded, setField, setCurrentPlayer, setIsGameEnded, setIsDraw } = props;
@@ -20,20 +22,7 @@ export function Field(props) {
 		}
 	};
 
-	const checkWinner = (field, player) => {
-		const WIN_PATTERNS = [
-			[0, 1, 2],
-			[3, 4, 5],
-			[6, 7, 8],
-			[0, 3, 6],
-			[1, 4, 7],
-			[2, 5, 8],
-			[0, 4, 8],
-			[2, 4, 6],
-		];
-
-		return WIN_PATTERNS.some((pattern) => pattern.every((index) => field[index] === player));
-	};
+	checkWinner(field, currentPlayer);
 
 	return <FieldLayout field={field} onCellClick={handleCellClick} />;
 }
