@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './FieldLayout.module.css';
+import styles from './Styles/FieldLayout.module.css';
 
 export function InformationLayout({ currentPlayer, isGameEnded, isDraw }) {
 	let status = isDraw ? 'Ничья!' : isGameEnded ? `Победа: ${currentPlayer}` : `Ходит: ${currentPlayer}`;

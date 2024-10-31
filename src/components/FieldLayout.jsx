@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './FieldLayout.module.css';
+import styles from './Styles/FieldLayout.module.css';
 
 export function FieldLayout({ field, onCellClick }) {
 	return (

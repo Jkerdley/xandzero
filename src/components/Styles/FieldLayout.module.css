@@ -1,0 +1,79 @@
+/* src/components/FieldLayout.module.css */
+.field {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 6px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+.information {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    margin: 5px 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #854bdc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    color: #ffffff; /* Добавлено для явного указания цвета текста */
+    font-size: 2em;  /* Увеличен размер шрифта для лучшей видимости */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell:hover {
+    transform: scale(1.15);
+    background-color: rgb(143, 86, 230);
+}
+
+.cell:active {
+    background-color: #6d3cb7;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.infoContainer button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #dc4b6d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    color: #ffffff; /* Добавлено для явного указания цвета текста */
+    font-size: 1em;  /* Добавление размера шрифта */
+}
+
+.infoContainer button:hover {
+    background-color: #ab73ff;
+}
+
+.infoContainer button:active {
+    background-color: rgb(142, 71, 200);
+}

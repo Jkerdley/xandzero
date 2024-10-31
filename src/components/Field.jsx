@@ -1,28 +1,55 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { FieldLayout } from './FieldLayout';
 import { checkWinner } from './Utils/CheckWinner';
+import { store } from '../store/store';
 
+export function Field() {
+	const [state, setState] = useState(store.getState());
 
-export function Field(props) {
-	const { field, currentPlayer, isGameEnded, setField, setCurrentPlayer, setIsGameEnded, setIsDraw } = props;
+	useEffect(() => {
+		const unsubscribe = store.subscribe(() => {
+			setState(store.getState());
+		});
+
+		return () => unsubscribe();
+	}, []);
 
 	const handleCellClick = (index) => {
-		if (field[index] !== '' || isGameEnded) return;
+		const currentState = store.getState();
 
-		const newField = [...field];
-		newField[index] = currentPlayer;
-		setField(newField);
+		if (!canMakeMove(index, currentState)) {
+			return;
+		}
 
-		if (checkWinner(newField, currentPlayer)) {
-			setIsGameEnded(true);
-		} else if (newField.every((cell) => cell !== '')) {
-			setIsDraw(true);
+		const newField = [...currentState.field];
+		newField[index] = currentState.currentPlayer;
+
+		store.dispatch({ type: 'SET_FIELD', payload: newField });
+
+		if (checkWinner(newField, currentState.currentPlayer)) {
+			store.dispatch({ type: 'SET_GAME_ENDED', payload: true });
 		} else {
-			setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+			switchPlayer(currentState.currentPlayer);
+		}
+
+		if (isDraw(newField) && !checkWinner(newField, currentState.currentPlayer)) {
+			store.dispatch({ type: 'SET_DRAW', payload: true });
+			return;
 		}
 	};
 
-	checkWinner(field, currentPlayer);
+	const canMakeMove = (index, currentState) => {
+		return currentState.field[index] === '' && !currentState.isGameEnded;
+	};
 
-	return <FieldLayout field={field} onCellClick={handleCellClick} />;
+	const isDraw = (newField) => {
+		return newField.every((cell) => cell !== '');
+	};
+
+	const switchPlayer = (currentPlayer) => {
+		const nextPlayer = currentPlayer === 'X' ? 'O' : 'X';
+		store.dispatch({ type: 'SET_CURRENT_PLAYER', payload: nextPlayer });
+	};
+
+	return <FieldLayout field={state.field} onCellClick={handleCellClick} />;
 }
