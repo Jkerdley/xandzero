@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import { GameLayout } from './GameLayout';
-import { store } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { RESTART_GAME } from '../actions';
 
 export function Game() {
+	const dispatch = useDispatch();
 	const restartGame = useCallback(() => {
-		store.dispatch({ type: 'RESTART_GAME' });
-	}, []);
+		dispatch(RESTART_GAME);
+	}, [dispatch]);
 
 	return <GameLayout restartGame={restartGame} />;
 }

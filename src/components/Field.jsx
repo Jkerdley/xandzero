@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react';
 import { FieldLayout } from './FieldLayout';
 import { checkWinner } from './Utils/CheckWinner';
-import { store } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_DRAW, setField, SET_GAME_ENDED, setCurrentPlayer } from '../actions';
 
 export function Field() {
-	const [state, setState] = useState(store.getState());
-
-	useEffect(() => {
-		const unsubscribe = store.subscribe(() => {
-			setState(store.getState());
-		});
-
-		return () => unsubscribe();
-	}, []);
+	const currentState = useSelector((state) => state);
+	const dispatch = useDispatch();
 
 	const handleCellClick = (index) => {
-		const currentState = store.getState();
-
 		if (!canMakeMove(index, currentState)) {
 			return;
 		}
@@ -24,16 +15,16 @@ export function Field() {
 		const newField = [...currentState.field];
 		newField[index] = currentState.currentPlayer;
 
-		store.dispatch({ type: 'SET_FIELD', payload: newField });
+		dispatch(setField(newField));
 
 		if (checkWinner(newField, currentState.currentPlayer)) {
-			store.dispatch({ type: 'SET_GAME_ENDED', payload: true });
+			dispatch(SET_GAME_ENDED);
 		} else {
 			switchPlayer(currentState.currentPlayer);
 		}
 
 		if (isDraw(newField) && !checkWinner(newField, currentState.currentPlayer)) {
-			store.dispatch({ type: 'SET_DRAW', payload: true });
+			dispatch(SET_DRAW);
 			return;
 		}
 	};
@@ -48,8 +39,8 @@ export function Field() {
 
 	const switchPlayer = (currentPlayer) => {
 		const nextPlayer = currentPlayer === 'X' ? 'O' : 'X';
-		store.dispatch({ type: 'SET_CURRENT_PLAYER', payload: nextPlayer });
+		dispatch(setCurrentPlayer(nextPlayer));
 	};
 
-	return <FieldLayout field={state.field} onCellClick={handleCellClick} />;
+	return <FieldLayout field={currentState.field} onCellClick={handleCellClick} />;
 }
